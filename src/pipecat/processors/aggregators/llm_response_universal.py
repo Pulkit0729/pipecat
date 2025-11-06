@@ -672,7 +672,8 @@ class LLMAssistantAggregator(LLMContextAggregator):
             await self.push_context_frame(FrameDirection.UPSTREAM)
 
     async def _handle_interruptions(self, frame: InterruptionFrame):
-        await self.push_aggregation()
+        # Don't push the partial aggregation to the context when interrupted.
+        # Just discard it and reset the state.
         self._started = 0
         await self.reset()
 
